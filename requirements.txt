@@ -1,0 +1,16 @@
+# domain-specific
+pgmpy>=0.1.18
+bnlearn
+pyagrum
+gensim
+# general math/data
+torch
+numpy
+scikit-learn
+scipy
+pandas
+matplotlib
+# dev tools
+jupyter
+setuptools
+wheel
