@@ -51,11 +51,9 @@ def train(df: pd.DataFrame, save_path: str='./bin/clusters'):
         embedding = Isomap(n_neighbors=5, n_components=3, metric='cosine')
         x_insp = embedding.fit_transform(model_insp.dv.vectors)
         x_main = embedding.fit_transform(model_main.dv.vectors)
-        predict_embedding = embedding.transform
     else:
         x_insp = model_insp.dv.vectors.copy()
         x_main = model_main.dv.vectors.copy()
-        predict_embedding = lambda x: x
     
     # Cluster the embeddings
     pipe_insp = Pipeline([
@@ -105,7 +103,7 @@ def load_models(load_path: str='./bin/clusters'):
     return models,
 
 
-def predict(query: str, model: dict):
+def predict(query: str, model: dict, topn=5):
     evidence = {
         'insp': predict_insp_cluster(gensim.utils.simple_preprocess(query), model),
         }
@@ -113,7 +111,7 @@ def predict(query: str, model: dict):
                         evidence=evidence, verbose=0)
     resdf = res.df.set_index('main')
     
-    examples = res.sample(10).values.flatten()
+    examples = res.sample(topn).values.flatten()
 
     labels = model['pipe_insp'].named_steps['clustering'].labels_
     unique_labels, counts = np.unique(examples, return_counts=True)
@@ -126,7 +124,7 @@ def predict(query: str, model: dict):
         scores.extend([resdf.p[l]/c] * c)
         # for i in idx:
         #     print(df.Maintenance.iloc[i])
-    return zip(indices, clusters, scores)
+    return sorted(zip(indices, clusters, scores), key=lambda x: x[2], reverse=True)
 
 
 if __name__=='__main__':

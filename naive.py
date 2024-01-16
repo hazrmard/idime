@@ -43,11 +43,14 @@ def load_models(path: str='./bin/naive'):
     return model,
 
 
-def predict(query: str, model: Doc2Vec):
+def predict(query: str, model: Doc2Vec, topn=5):
     vector = model.infer_vector(simple_preprocess(query))
-    sims = model.dv.most_similar([vector], topn=10)
+    sims = model.dv.most_similar([vector], topn=topn)
     normed = scipy.special.softmax([score for _,score in sims])
-    return [(idx, 0, n) for ((idx, _), n) in zip(sims, normed)]
+    return sorted(
+        [(idx, 0, n) for ((idx, _), n) in zip(sims, normed)],
+        key=lambda x: x[2], reversed=True
+    )
 
 
 if __name__=='__main__':

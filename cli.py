@@ -21,7 +21,9 @@ if __name__=='__main__':
         model, *_ = load_models('./bin/clusters_' + args.data)
 
     while True:
-        query = input('Enter query: ')
-        answer = predict(query=query, model=model)
-        for (idx, cluster, score) in answer:
-            print('%2d, %.2f, %.2f, %s' % (cluster, score, data.iloc[idx].TimeCost, data.Maintenance.iloc[idx]))
+        query = input('\nRecommend Actions for: ')
+        answer = predict(query=query, model=model, topn=5)
+        print('Recommended Actions:')
+        print('--------------------')
+        for i, (idx, cluster, score) in enumerate(answer):
+            print('%2d.\t%s\n\tTime Cost: %.2f hours' % (i, data.Maintenance.iloc[idx], data.iloc[idx].TimeCost))
