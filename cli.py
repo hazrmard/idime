@@ -26,4 +26,4 @@ if __name__=='__main__':
         print('Recommended Actions:')
         print('--------------------')
         for i, (idx, cluster, score) in enumerate(answer):
-            print('%2d.\t%s\n\tTime Cost: %.2f hours' % (i, data.Maintenance.iloc[idx], data.iloc[idx].TimeCost))
+            print('%2d.\t%s\n\tTime Cost: %.2f hours' % (i+1, data.Maintenance.iloc[idx], data.iloc[idx].TimeCost))
