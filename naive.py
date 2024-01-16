@@ -15,7 +15,7 @@ def train(df: pd.DataFrame, save_path: str='./bin/naive'):
     # for later analysis.
     def read_documents(s: pd.Series, tokens_only=False):
             for i, line in enumerate(s):
-                tokens = gensim.utils.simple_preprocess(line.lower())
+                tokens = gensim.utils.simple_preprocess(str(line))
                 if tokens_only:
                     yield tokens
                 else:
