@@ -88,9 +88,9 @@ def train(df: pd.DataFrame, save_path: str='./bin/clusters'):
     models = dict(
         embedding=embedding,
         model_insp=model_insp,
-        model_main=model_main,
+        # model_main=model_main,
         pipe_insp=pipe_insp,
-        pipe_main=pipe_main,
+        # pipe_main=pipe_main,
         knn=knn,
         model=model,
     )
@@ -111,13 +111,29 @@ def predict(query: str, model: dict):
         }
     res=bn.inference.fit(model['model'], variables=['main',],
                         evidence=evidence, verbose=0)
+    resdf = res.df.set_index('main')
     
     examples = res.sample(10).values.flatten()
 
     labels = model['pipe_insp'].named_steps['clustering'].labels_
     unique_labels, counts = np.unique(examples, return_counts=True)
+    indices, clusters, scores = [], [], []
     for l, c in zip(unique_labels, counts):
-        idx = np.arange(len(examples))[examples==l]
+        idx = np.arange(len(labels))[labels==l]
         idx = np.random.choice(idx, size=c)
-        for i in idx:
-            print(df.Maintenance.iloc[i])
+        indices.extend(idx)
+        clusters.extend([l]*c)
+        scores.extend([resdf.p[l]/c] * c)
+        # for i in idx:
+        #     print(df.Maintenance.iloc[i])
+    return zip(indices, clusters, scores)
+
+
+if __name__=='__main__':
+    import sys
+    if len(sys.argv) > 1:
+        path = sys.argv[1]
+    else:
+        path = 'maintnet'
+    df = load_source('./data/' + path + '.csv')
+    train(df, save_path='./bin/clusters_' + path)

@@ -8,20 +8,20 @@ def load_source(path: str):
 
 if __name__=='__main__':
     parser = ArgumentParser()
-    parser.add_argument('--data', default='./data/maintnet.csv')
+    parser.add_argument('--data', default='maintnet')
     parser.add_argument('--mode', default='naive')
     args = parser.parse_args()
-
-    data = load_source(args.data)
+    print('Using data source %s and approach %s' % (args.data, args.mode))
+    data = load_source('./data/' + args.data + '.csv')
     if args.mode=='naive':
         from naive import predict, load_models
-        model, *_ = load_models()
+        model, *_ = load_models('./bin/naive_' + args.data)
     elif args.mode=='clusters':
-        from naive import predict, load_models
-        model, *_ = load_models()
+        from clusters import predict, load_models
+        model, *_ = load_models('./bin/clusters_' + args.data)
 
     while True:
         query = input('Enter query: ')
         answer = predict(query=query, model=model)
-        for idx, score in answer:
-            print('%.2f, %.2f, %s' % (score, data.iloc[idx].TimeCost, data.Maintenance.iloc[idx]))
+        for (idx, cluster, score) in answer:
+            print('%2d, %.2f, %.2f, %s' % (cluster, score, data.iloc[idx].TimeCost, data.Maintenance.iloc[idx]))
