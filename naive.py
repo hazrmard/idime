@@ -49,7 +49,7 @@ def predict(query: str, model: Doc2Vec, topn=5):
     normed = scipy.special.softmax([score for _,score in sims])
     return sorted(
         [(idx, 0, n) for ((idx, _), n) in zip(sims, normed)],
-        key=lambda x: x[2], reversed=True
+        key=lambda x: x[2], reverse=True
     )
 
 
