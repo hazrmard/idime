@@ -14,7 +14,7 @@ conda activate $loc/idime
 rm -rf $loc/deps
 mkdir $loc/deps
 
-pip download -r ~/requirements.txt \
+pip download -r ./requirements.txt \
         -d $loc/deps \
         --index-url=https://download.pytorch.org/whl/cpu \
         --extra-index-url=https://pypi.org/simple
