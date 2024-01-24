@@ -3,6 +3,7 @@ pgmpy>=0.1.18
 bnlearn
 pyagrum
 gensim
+sentence-transformers
 # general math/data
 torch
 numpy
@@ -10,6 +11,7 @@ scikit-learn
 scipy
 pandas
 matplotlib
+plotly
 # dev tools
 jupyter
 setuptools

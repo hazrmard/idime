@@ -19,6 +19,9 @@ if __name__=='__main__':
     elif args.mode=='clusters':
         from clusters import predict, load_models
         model, *_ = load_models('./bin/clusters_' + args.data)
+    elif args.mode=='sbert':
+        from sbert import predict, load_models
+        model, *_ = load_models('./bin/sbert_' + args.data)
 
     while True:
         query = input('\nRecommend Actions for: ')
