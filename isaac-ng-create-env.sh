@@ -24,3 +24,8 @@ rm idime.tgz deps.tgz
 tar -cvzhf idime.tgz idime
 tar -cvzhf deps.tgz deps
 cd $currloc
+
+# Also install locally
+conda activate $loc/idime
+python -m pip install -r requirements.txt --find-links=$loc/deps --no-index
+conda deactivate
