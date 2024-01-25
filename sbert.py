@@ -22,9 +22,10 @@ def load_source(path: str):
 def train(df: pd.DataFrame, save_path: str='./bin/sbert'):
     model_path = get_common_bin_path(save_path)
     model = SentenceTransformer(model_name, cache_folder=model_path)
-    encodings = model.encode(df.Inspection.to_list(), convert_to_numpy=True)
-    Path(save_path).mkdir(parents=True, exist_ok=True)
-    np.save(save_path + '/encodings.npy', encodings)
+    if df is not None:
+        encodings = model.encode(df.Inspection.to_list(), convert_to_numpy=True)
+        Path(save_path).mkdir(parents=True, exist_ok=True)
+        np.save(save_path + '/encodings.npy', encodings)
     return model,
     
 
