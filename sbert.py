@@ -23,7 +23,7 @@ def train(df: pd.DataFrame, save_path: str='./bin/sbert'):
     model_path = get_common_bin_path(save_path)
     model = SentenceTransformer(model_name, cache_folder=model_path)
     if df is not None:
-        encodings = model.encode(df.Inspection.to_list(), convert_to_numpy=True)
+        encodings = model.encode(df.Inspection.to_list(), show_progress_bar=True, convert_to_numpy=True)
         Path(save_path).mkdir(parents=True, exist_ok=True)
         np.save(save_path + '/encodings.npy', encodings)
     return model,
@@ -52,7 +52,8 @@ if __name__=='__main__':
     import sys
     if len(sys.argv) > 1:
         data = sys.argv[1]
+        df = load_source('./data/' + data + '.csv')
+        train(df, save_path=f'./bin/sbert_{data}')
     else:
-        data = 'maintnet'
-    df = load_source('./data/' + data + '.csv')
-    train(df, save_path=f'./bin/sbert_{data}')
+        data = None
+        train(data, save_path=f'./bin/sbert')
