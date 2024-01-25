@@ -28,4 +28,13 @@ cd $currloc
 # Also install locally
 conda activate $loc/env
 python -m pip install -r requirements.txt --find-links=$loc/deps --no-index
+
+cd $loc/src
+python sbert.py maintnet
+tar -cvzhf $loc/bin.tgz ./bin
+
+rm $loc/src.tgz
+tar -cvzhf src.tgz .
+
 conda deactivate
+cd $currloc
