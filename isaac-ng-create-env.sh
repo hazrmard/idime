@@ -29,11 +29,10 @@ cd $currloc
 conda activate $loc/env
 python -m pip install -r requirements.txt --find-links=$loc/deps --no-index
 
-python sbert.py maintnet
-tar -cvzhf $loc/bin.tgz ./bin
+python sbert.py
 
 rm $loc/src.tgz
-tar -cvzhf src.tgz .
+tar -cvzhf $loc/src.tgz .
 
 conda deactivate
 cd $currloc

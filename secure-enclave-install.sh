@@ -1,6 +1,5 @@
 ENV_DIR=../env
 DEPS=../deps
-BIN_DIR=../bin
 
 rm -rf $ENV_DIR
 rm -rf $DEPS
