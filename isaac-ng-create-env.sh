@@ -5,11 +5,11 @@ currloc=$(pwd)
 
 echo "Location is $loc"
 
-rm -rf $loc/idime
-rm $loc/idime.tgz
+rm -rf $loc/env
+rm $loc/env.tgz
 
-conda create -p $loc/idime --copy python=3.10
-conda activate $loc/idime
+conda create -p $loc/env --copy python=3.10
+conda activate $loc/env
 
 rm -rf $loc/deps
 mkdir $loc/deps
@@ -20,12 +20,12 @@ pip download -r ./requirements.txt \
         --extra-index-url=https://pypi.org/simple
 
 cd $loc
-rm idime.tgz deps.tgz
-tar -cvzhf idime.tgz idime
+rm env.tgz deps.tgz
+tar -cvzhf env.tgz env
 tar -cvzhf deps.tgz deps
 cd $currloc
 
 # Also install locally
-conda activate $loc/idime
+conda activate $loc/env
 python -m pip install -r requirements.txt --find-links=$loc/deps --no-index
 conda deactivate
